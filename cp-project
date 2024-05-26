@@ -1,0 +1,285 @@
+#include <iostream>
+using namespace std;
+
+const int max_items = 100; //maximum different items to be stored in the inventory.
+int itemCount = 0; //number of items stored in the inventory.
+string itemNames[max_items]; //array to store item names.
+int itemQuantities[max_items]; //array to store item quantities.
+
+
+
+
+void addItem()//function to add item.
+{
+
+	system("cls"); //clearing the console.
+	cout << "\nAdding Item:\n";
+
+	if (itemCount >= max_items)//checking if the inventory is full.
+	{
+
+		cout << "\nInventory is full. Cannot add more items.\n";
+		return;
+	}
+	else
+	{
+
+		string itemName = "";
+		int itemQuantity = 0;
+		bool isPresent = false;
+
+		cout << "\nEnter item name: ";
+		cin >> itemName;
+
+		for (int i = 0; i < max_items; i++)
+		{
+
+			if (itemName == itemNames[i])//checking whether the item is already present or not.
+			{
+
+				isPresent = true;
+				break;
+
+			}
+		}
+
+		if (isPresent == true)
+		{
+
+			cout << "\nItem Already Present\n";
+
+		}
+		else
+		{
+
+			itemNames[itemCount] = itemName;//adding item.
+			itemCount += 1;
+			cout << "\nItem added successfully.\n";
+		}
+
+
+
+		cout << endl;
+		system("pause"); //stopping the console.
+	}
+}
+
+
+
+
+void removeItem()//function to remove item.
+{
+
+	system("cls");
+	cout << "\nRemoving Item:\n\n";
+
+	if (itemCount == 0)
+	{
+		cout << "No items to remove.\n";//empty inventory.
+		cout << endl;
+		system("pause");
+		return;
+	}
+
+	string name;
+	cout << "Enter the item name to remove: ";
+	cin >> name;
+
+	int i = 0;
+	bool isPresent = false;
+	for (i = 0; i < itemCount; i++)
+	{
+		if (itemNames[i] == name)
+		{
+			isPresent = true;
+			break;
+		}
+	}
+
+	if (isPresent == false)
+	{
+
+		cout << "\nItem not found.\n";//no such item present in the inventory.
+
+	}
+	else
+	{
+
+		for (int j = i; j < itemCount - 1; j++)
+		{
+			itemNames[j] = itemNames[j + 1];
+			itemQuantities[j] = itemQuantities[j + 1];
+		}
+
+		itemCount--;
+		cout << "\nItem removed successfully.\n";
+	}
+
+	cout << endl;
+	system("pause");
+}
+
+
+
+
+void displayItems()//function to remove an item from the inventory.
+{
+
+	system("cls");
+	cout << "\nDisplaying Item(s):\n";
+
+	if (itemCount == 0)
+	{
+
+		cout << "\nNo items in the inventory.\n\n";//empty inventory.
+		system("pause");
+		return;
+
+	}
+
+	cout << "\nInventory Items:\n";
+	for (int i = 0; i < itemCount; i++)
+	{
+		cout << "\nItem " << (i + 1) << ":\n";
+		cout << "\tName: " << itemNames[i] << "\n";
+		cout << "\tQuantity: " << itemQuantities[i] << "\n";
+	}
+
+	cout << endl;
+	system("pause");
+}
+
+
+
+
+void changeItem()//function to change the quantity of an item in the inventory.
+{
+
+	system("cls");
+	cout << "\nChanging Item Amount:\n";
+
+	if (itemCount <= 0)
+	{
+		cout << "\nNo items in Inventory\n";//empty inventory.
+	}
+	else
+	{
+		string itemName = "";
+		int itemQuantity = 0;
+		bool isPresent = false;
+		int choice, i = 0;
+
+		cout << "\nEnter item name: ";
+		cin >> itemName;
+
+		for (i = 0; i < max_items; i++)
+		{
+
+			if (itemName == itemNames[i])
+			{
+
+				isPresent = true;
+				break;
+
+			}
+		}
+
+		if (isPresent == false)
+		{
+
+			cout << "\nItem not found\n";
+
+		}
+		else
+		{
+
+			cout << "\n1. Add\n2. Subtract\n\nChoice: ";
+			cin >> choice;
+
+			if (choice == 1)
+			{
+
+				cout << "\nEnter item quantity you want to add: ";
+				cin >> itemQuantity;
+
+				itemQuantities[i] += itemQuantity;
+				cout << "\nAmount added successfully.\n";
+
+			}
+			else if (choice == 2)
+			{
+
+				cout << "\nEnter item quantity you want to subtract: ";
+				cin >> itemQuantity;
+
+				if (itemQuantity > itemQuantities[i])
+				{
+					cout << "\nYou have insufficient quantity\n";
+				}
+				else
+				{
+
+					itemQuantities[i] -= itemQuantity;
+					cout << "\nAmount subtracted successfully.\n";
+
+				}
+
+			}
+			else
+			{
+
+				cout << "\nInvalid Input\n";
+
+			}
+
+		}
+	}
+
+	cout << endl;
+	system("pause");
+}
+
+
+
+
+int main()//main function(to be executed first).
+{
+
+	int choice;
+	do
+	{
+		system("cls");
+		cout << "\nInventory System:\n\n";
+		cout << "1. Add Item\n";
+		cout << "2. Remove Item\n";
+		cout << "3. Change Item Amount\n";
+		cout << "4. Display Items\n";
+		cout << "5. Exit\n\n";
+		cout << "Enter your choice: ";
+		cin >> choice;
+
+		switch (choice)//choice input by user.
+		{
+		case 1:
+			addItem();
+			break;
+		case 2:
+			removeItem();
+			break;
+		case 3:
+			changeItem();
+			break;
+		case 4:
+			displayItems();
+			break;
+		case 5:
+			cout << "\nExiting the program...\n";
+			break;
+		default:
+			cout << "\nInvalid choice. Please try again.\n\n";
+			system("pause");
+		}
+	} while (choice != 5);
+
+	return 0;
+}
